@@ -48,48 +48,7 @@ public class DexMethodCounts extends DexCount {
             if (outputStyle == OutputStyle.TREE) {
                 String packageNamePieces[] = packageName.split("\\.");
                 Node packageNode = packageTree;
-                int realMaxDepth = maxDepth;
-                if (packageName.startsWith("android")
-                        || packageName.startsWith("butterknife")
-                        || packageName.startsWith("ad")
-                        || packageName.startsWith("dalvik")
-                        || packageName.startsWith("javax")
-                        || packageName.startsWith("junit")
-                        || packageName.startsWith("retrofit")
-                        || packageName.startsWith("rx")
-                        || packageName.startsWith("java")) {
-                    realMaxDepth = 1;
-                } else if (packageName.startsWith("com.appsflyer")
-                        || packageName.startsWith("com.idealista")
-                        || packageName.startsWith("com.atinternet")
-                        || packageName.startsWith("com.crashlytics")
-                        || packageName.startsWith("com.facebook")
-                        || packageName.startsWith("com.nineoldandroids")
-                        || packageName.startsWith("io.fabric")
-                        || packageName.startsWith("org.jfree")
-                        || packageName.startsWith("org.junit")
-                        || packageName.startsWith("org.simpleframework")
-                        || packageName.startsWith("org.springframework")
-                        || packageName.startsWith("org.hamcrest")
-                        || packageName.startsWith("org.w3c")
-                        || packageName.startsWith("org.xml")
-                        || packageName.startsWith("org.xmlpull")) {
-                    realMaxDepth = 2;
-                } else if (packageName.startsWith("com.android.volley")
-                        || packageName.startsWith("com.fasterxml.jackson")
-                        || packageName.startsWith("com.gc.materialdesign")
-                        || packageName.startsWith("com.google")
-                        || packageName.startsWith("com.squareup")
-                        || packageName.startsWith("com.tundem")
-                        || packageName.startsWith("com.apache")
-                        || packageName.startsWith("com.nirhart")
-                        || packageName.startsWith("org.codehaus")
-                        || packageName.startsWith("org.apache")
-                        || packageName.startsWith("com.android.volley")
-                        || packageName.startsWith("com.android.volley")
-                        ) {
-                    realMaxDepth = 3;
-                }
+                int realMaxDepth = config.findMaxDepth(packageName);
                 for (int i = 0; i < packageNamePieces.length && i < realMaxDepth; i++) {
                     packageNode.count++;
                     String name = packageNamePieces[i];

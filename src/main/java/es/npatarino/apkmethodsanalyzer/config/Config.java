@@ -12,7 +12,15 @@ public class Config {
         depths = new ArrayList<>();
     }
 
-    public List<Depth> getDepths() {
-        return depths;
+    public int findMaxDepth(String packageName) {
+        for (Depth depth : depths) {
+            for (String currentPrefix : depth.getPackagePrefix()) {
+                if (packageName.startsWith(currentPrefix)) {
+                    return depth.getDepth();
+                }
+            }
+        }
+        return Integer.MAX_VALUE;
     }
+
 }

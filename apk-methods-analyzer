@@ -106,7 +106,7 @@ else
     curdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 fi
 libdir="$curdir/build/jar"
-jarfile="dex-method-counts.jar"
+jarfile="apk-methods-analyzer.jar"
 if [ ! -r "$libdir/$jarfile" ]
 then
     echo `basename "$prog"`": can't find $jarfile"

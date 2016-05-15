@@ -22,7 +22,10 @@ import es.npatarino.apkmethodsanalyzer.dex.DexMethodCounts;
 import es.npatarino.apkmethodsanalyzer.files.CollectFileNames;
 import es.npatarino.apkmethodsanalyzer.output.GenerateHtmlOutput;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class Main {
 
