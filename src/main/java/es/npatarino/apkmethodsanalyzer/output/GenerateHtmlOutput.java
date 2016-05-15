@@ -4,6 +4,7 @@ import es.npatarino.apkmethodsanalyzer.dex.DexCount;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Random;
 
@@ -18,31 +19,18 @@ public class GenerateHtmlOutput {
     }
 
     public void generate() throws IOException {
+        File exportFolder = createExportFolder();
+        copyAssetsFiles(exportFolder);
+        generateIndexFile(exportFolder);
+    }
+
+    private void generateIndexFile(File exportFolder) throws IOException {
         File startFile = new File("assets/start.txt");
         BufferedReader startBufferedReader = new BufferedReader(new FileReader(startFile));
-
         File endFile = new File("assets/end.txt");
         BufferedReader endBufferedReader = new BufferedReader(new FileReader(endFile));
 
-        File folder = new File("export/");
-        folder.mkdirs();
-
-        File d3File = new File("assets/d3.min.js");
-        if (!d3File.exists()) {
-            // TODO: Return error
-        }
-
-        File d3PieFile = new File("assets/d3pie.min.js");
-        if (!d3PieFile.exists()) {
-            // TODO: Return error
-        }
-
-        File copyD3 = new File(folder, d3File.getName());
-        File copyD3Pie = new File(folder, d3PieFile.getName());
-        Files.copy(d3File.toPath(), copyD3.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        Files.copy(d3PieFile.toPath(), copyD3Pie.toPath(), StandardCopyOption.REPLACE_EXISTING);
-
-        File f = new File(folder, "methods.htm");
+        File f = new File(exportFolder, "methods.htm");
         if (!f.exists()) {
             f.createNewFile();
         }
@@ -65,6 +53,63 @@ public class GenerateHtmlOutput {
 
         startBufferedReader.close();
         bw.close();
+    }
+
+    private void copyAssetsFiles(File exportFolder) throws IOException {
+        File d3File = new File("assets/d3.min.js");
+        File d3PieFile = new File("assets/d3pie.min.js");
+        File cssFolderToCopy = new File("assets/css");
+        File fontsFolderToCopy = new File("assets/fonts");
+        File fontFolderToCopy = new File("assets/font");
+        File jsFolderToCopy = new File("assets/js");
+
+        File copyD3 = new File(exportFolder, d3File.getName());
+        File copyD3Pie = new File(exportFolder, d3PieFile.getName());
+        File cssFolderCopy = new File(exportFolder, cssFolderToCopy.getName());
+        File fontsFolderCopy = new File(exportFolder, fontsFolderToCopy.getName());
+        File fontFolderCopy = new File(exportFolder, fontFolderToCopy.getName());
+        File jsFolderCopy = new File(exportFolder, jsFolderToCopy.getName());
+
+        copyFile(cssFolderToCopy, cssFolderCopy);
+        copyFile(fontsFolderToCopy, fontsFolderCopy);
+        copyFile(fontFolderToCopy, fontFolderCopy);
+        copyFile(jsFolderToCopy, jsFolderCopy);
+        copyFile(d3File, copyD3);
+        copyFile(d3PieFile, copyD3Pie);
+    }
+
+    private File createExportFolder() {
+        File exportFolder = new File("export/");
+        exportFolder.mkdirs();
+        return exportFolder;
+    }
+
+    private void copyFile(File fileToCopy, File newFile) throws IOException {
+        if (fileToCopy == null || newFile == null || !fileToCopy.exists()) {
+            throw new IOException("There is a problem with the source or target file");
+        }
+        if (fileToCopy.isDirectory()) {
+            copyDirectory(fileToCopy, newFile);
+        } else {
+            copy(fileToCopy, newFile);
+        }
+    }
+
+    private void copyDirectory(File fileToCopy, File newFile) throws IOException {
+        if (!newFile.exists()) {
+            copy(fileToCopy, newFile);
+        }
+        File[] files = fileToCopy.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                File fileCopy = new File(newFile, file.getName());
+                copy(file, fileCopy);
+            }
+        }
+    }
+
+    private Path copy(File fileToCopy, File newFile) throws IOException {
+        return Files.copy(fileToCopy.toPath(), newFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
     }
 
     private String getGeneratedContent(DexCount.Node node, String parent, int overallCount, String fullText) {
