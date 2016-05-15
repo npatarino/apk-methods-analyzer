@@ -14,20 +14,22 @@
 
 package es.npatarino.apkmethodsanalyzer;
 
+import com.google.gson.Gson;
+import es.npatarino.apkmethodsanalyzer.config.Config;
 import es.npatarino.apkmethodsanalyzer.dex.DexCount;
 import es.npatarino.apkmethodsanalyzer.dex.DexDataException;
 import es.npatarino.apkmethodsanalyzer.dex.DexMethodCounts;
 import es.npatarino.apkmethodsanalyzer.files.CollectFileNames;
 import es.npatarino.apkmethodsanalyzer.output.GenerateHtmlOutput;
 
-import java.io.IOException;
+import java.io.*;
 
 public class Main {
 
     private String packageFilter;
     private int maxDepth = Integer.MAX_VALUE;
     private DexMethodCounts.Filter filter = DexMethodCounts.Filter.ALL;
-    private int minPercentageToPrint = 2;
+    private int minPercentageToPrint = 1;
 
     public static void main(String[] args) {
         Main main = new Main();
@@ -36,11 +38,17 @@ public class Main {
 
     void run(String[] args) {
         try {
+            Config config = new Config();
+            File configFile = new File("config/config.json");
+            if (configFile.exists()) {
+                BufferedReader reader = new BufferedReader(new FileReader(configFile));
+                config = new Gson().fromJson(reader, Config.class);
+            }
             String[] inputFileNames = new String[]{"idealista-production-release-7.0.3.apk"};
             int overallCount = 0;
             CollectFileNames collectFileNames = new CollectFileNames(inputFileNames);
             for (String fileName : collectFileNames.invoke()) {
-                DexCount dexCount = new ProcessFile(fileName, packageFilter, maxDepth, filter).invoke();
+                DexCount dexCount = new ProcessFile(fileName, packageFilter, maxDepth, filter, config).invoke();
                 overallCount += dexCount.getOverallCount();
                 new GenerateHtmlOutput(dexCount, minPercentageToPrint).generate();
             }

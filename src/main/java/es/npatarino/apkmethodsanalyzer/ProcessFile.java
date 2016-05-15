@@ -1,5 +1,6 @@
 package es.npatarino.apkmethodsanalyzer;
 
+import es.npatarino.apkmethodsanalyzer.config.Config;
 import es.npatarino.apkmethodsanalyzer.dex.DexCount;
 import es.npatarino.apkmethodsanalyzer.dex.DexData;
 import es.npatarino.apkmethodsanalyzer.dex.DexMethodCounts;
@@ -14,22 +15,25 @@ public class ProcessFile {
     private final String packageFilter;
     private final int maxDepth;
     private final DexCount.Filter filter;
-    private String fileName;
+    private final Config config;
+    private final String fileName;
 
-    public ProcessFile(String fileName, String packageFilter, int maxDepth, DexMethodCounts.Filter filter) {
+    public ProcessFile(String fileName, String packageFilter, int maxDepth, DexMethodCounts.Filter filter,
+                       Config config) {
         this.fileName = fileName;
         this.packageFilter = packageFilter;
         this.maxDepth = maxDepth;
         this.filter = filter;
+        this.config = config;
     }
 
     public DexCount invoke() throws IOException {
-        return processFile(fileName);
+        return processFile(fileName, config);
     }
 
-    private DexCount processFile(String fileName) throws IOException {
+    private DexCount processFile(String fileName, Config config) throws IOException {
         System.out.println("Processing " + fileName);
-        DexCount counts = new DexMethodCounts();
+        DexCount counts = new DexMethodCounts(config);
         List<RandomAccessFile> dexFiles = new OpenInputFiles(fileName).invoke();
         loadDexFiles(counts, dexFiles);
         return counts;

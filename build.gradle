@@ -1,6 +1,6 @@
 apply plugin: 'application'
 
-mainClassName = "info.persistent.dex.Main"
+mainClassName = "es.npatarino.apkmethodsanalyzer.Main"
 
 // Match existing source structure
 sourceSets {

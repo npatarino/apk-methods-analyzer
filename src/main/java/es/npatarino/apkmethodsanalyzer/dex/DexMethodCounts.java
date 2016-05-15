@@ -14,12 +14,17 @@
 
 package es.npatarino.apkmethodsanalyzer.dex;
 
+import es.npatarino.apkmethodsanalyzer.config.Config;
+
 import java.util.*;
 
 public class DexMethodCounts extends DexCount {
 
-    public DexMethodCounts() {
+    private Config config;
+
+    public DexMethodCounts(Config config) {
         super(OutputStyle.TREE);
+        this.config = config;
     }
 
     public DexMethodCounts(OutputStyle outputStyle) {

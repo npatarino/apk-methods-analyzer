@@ -1,0 +1,54 @@
+{
+  "depths": [
+    {
+      "depth": 1,
+      "packagePrefix": [
+        "android",
+        "butterknife",
+        "ad",
+        "dalvik",
+        "javax",
+        "junit",
+        "retrofit",
+        "rx",
+        "java"
+      ]
+    },
+    {
+      "depth": 2,
+      "packagePrefix": [
+        "com.appsflyer",
+        "com.idealista",
+        "com.atinternet",
+        "com.crashlytics",
+        "com.facebook",
+        "com.nineoldandroids",
+        "io.fabric",
+        "org.jfree",
+        "org.junit",
+        "org.simpleframework",
+        "org.springframework",
+        "org.hamcrest",
+        "org.w3c",
+        "org.xml",
+        "org.xmlpull"
+      ]
+    },
+    {
+      "depth": 3,
+      "packagePrefix": [
+        "com.android.volley",
+        "com.fasterxml.jackson",
+        "com.gc.materialdesign",
+        "com.google",
+        "com.squareup",
+        "com.tundem",
+        "com.apache",
+        "com.nirhart",
+        "org.codehaus",
+        "org.apache",
+        "com.android.volley"
+      ]
+    }
+  ]
+}
