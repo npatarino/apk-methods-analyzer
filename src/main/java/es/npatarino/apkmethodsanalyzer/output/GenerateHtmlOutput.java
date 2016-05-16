@@ -8,6 +8,8 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Random;
 
+import static java.lang.System.out;
+
 public class GenerateHtmlOutput {
 
     private final DexCount counts;
@@ -122,6 +124,7 @@ public class GenerateHtmlOutput {
                 int r = rand.nextInt(255);
                 int g = rand.nextInt(255);
                 int b = rand.nextInt(255);
+                out.println(parent + " : " + node.count);
                 return fullText + "{'label':'" + parent + "', 'value': " + node.count + ", 'color':'" + String.format("#%02x%02x%02x", r, g, b) + "'}";
             }
         } else {

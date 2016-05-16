@@ -6,7 +6,7 @@
 			"pieDistance": 32
 		},
 		"inner": {
-			"hideWhenLessThanPercentage": 3
+			"hideWhenLessThanPercentage": 0
 		},
 		"mainLabel": {
 			"fontSize": 11
