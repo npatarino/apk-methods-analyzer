@@ -27,7 +27,7 @@ import java.io.*;
 public class Main {
 
     private String packageFilter;
-    private int maxDepth = 5;
+    private int maxDepth = 4;
     private DexMethodCounts.Filter filter = DexMethodCounts.Filter.ALL;
     private int minPercentageToPrint = 1;
     private String[] inputFileNames;
